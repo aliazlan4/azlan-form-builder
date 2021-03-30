@@ -8,7 +8,15 @@ const Component = props => {
 				const item = props.availableItems[type];
 
 				return (
-					<Col sm="12" md="6" className="afb-toolbar-item-parent" key={"toolbar-item-"+index}>
+					<Col
+						sm="12"
+						md="6"
+						className="afb-toolbar-item-parent"
+						key={"toolbar-item-"+index}
+						draggable="true"
+						onDragEnd={e => props.dragEnd(e, type)}
+						onDragOver={e => props.dragOver(e)}
+					>
 						<div className="afb-toolbar-item" onClick={e => props.newItem(type)}>
 							<i className={item.icon + " mr-2"}/>
 							<br/>

@@ -69,7 +69,19 @@ var Component = function Component(props) {
       setSelectedItem = _useState6[1];
 
   var bottomRef = (0, _react.useRef)(null);
-  var didMount = (0, _react.useRef)(false); //////////// webhooks to world ///////////
+  var didMount = (0, _react.useRef)(false);
+
+  var _useState7 = (0, _react.useState)(null),
+      _useState8 = _slicedToArray(_useState7, 2),
+      draggingItem = _useState8[0],
+      setDraggingItem = _useState8[1];
+
+  var _useState9 = (0, _react.useState)(null),
+      _useState10 = _slicedToArray(_useState9, 2),
+      dragPosition = _useState10[0],
+      setDragPosition = _useState10[1];
+
+  var dropzoneDiv = (0, _react.useRef)(null); //////////// webhooks to world ///////////
   // call props.onUpdate whenever items changes
 
   (0, _react.useEffect)(function () {
@@ -121,6 +133,44 @@ var Component = function Component(props) {
     setItems(_toConsumableArray(items));
   };
 
+  var dragStart = function dragStart(e, index) {
+    setDraggingItem(index);
+  };
+
+  var dragEnd = function dragEnd(e, index) {
+    setDraggingItem(null);
+    setDragPosition(null);
+
+    if (isInDropZone(e, dropzoneDiv)) {
+      var newIndex = findNewIndex(e, dropzoneDiv);
+
+      if (newIndex !== index) {
+        array_move(items, index, newIndex);
+        setItems(_toConsumableArray(items));
+      }
+    }
+  };
+
+  var dragEndNewItem = function dragEndNewItem(e, type) {
+    setDraggingItem(null);
+    setDragPosition(null);
+
+    if (isInDropZone(e, dropzoneDiv)) {
+      var newIndex = findNewIndex(e, dropzoneDiv);
+      items.push(_objectSpread({}, allItems[type].defaultState));
+      array_move(items, items.length - 1, newIndex);
+      setItems(_toConsumableArray(items));
+    }
+  };
+
+  var dragOver = function dragOver(e) {
+    if (isInDropZone(e, dropzoneDiv)) {
+      setDragPosition(findNewIndex(e, dropzoneDiv));
+    } else {
+      setDragPosition(null);
+    }
+  };
+
   return /*#__PURE__*/_react["default"].createElement(_reactstrap.Row, {
     className: "afb-container"
   }, /*#__PURE__*/_react["default"].createElement(_reactstrap.Col, {
@@ -139,11 +189,18 @@ var Component = function Component(props) {
     className: "afb-container-center"
   }, /*#__PURE__*/_react["default"].createElement(_ListItems["default"], {
     items: items,
+    setItems: setItems,
     selectedItem: selectedItem,
     onItemSelect: onItemSelect,
     onItemDelete: onItemDelete,
     onItemDuplicate: onItemDuplicate,
-    availableItems: allItems
+    availableItems: allItems,
+    dragStart: dragStart,
+    dragEnd: dragEnd,
+    dragOver: dragOver,
+    dropzoneDiv: dropzoneDiv,
+    draggingItem: draggingItem,
+    dragPosition: dragPosition
   }), /*#__PURE__*/_react["default"].createElement("div", {
     ref: bottomRef
   })), /*#__PURE__*/_react["default"].createElement(_reactstrap.Col, {
@@ -151,9 +208,42 @@ var Component = function Component(props) {
     className: "afb-container-right afb-float"
   }, /*#__PURE__*/_react["default"].createElement(_Toolbar["default"], {
     newItem: newItem,
-    availableItems: allItems
+    availableItems: allItems,
+    dragEnd: dragEndNewItem,
+    dragOver: dragOver
   })));
 };
 
-var _default = Component;
+var _default = Component; ////// Private Functions //////
+
 exports["default"] = _default;
+
+var findNewIndex = function findNewIndex(e, dropzoneDiv) {
+  for (var count = 0; count < dropzoneDiv.current.children.length; count++) {
+    var body = dropzoneDiv.current.children[count].getBoundingClientRect();
+
+    if (e.clientY >= body.top && e.clientY <= body.bottom) {
+      return count;
+    }
+  }
+
+  return dropzoneDiv.current.children.length - 1;
+};
+
+var isInDropZone = function isInDropZone(e, dropzoneDiv) {
+  var zone = dropzoneDiv.current.getBoundingClientRect();
+  return e.pageX >= zone.left && e.pageX <= zone.right && e.clientY >= zone.top && e.clientY <= zone.bottom;
+};
+
+var array_move = function array_move(arr, old_index, new_index) {
+  if (new_index >= arr.length) {
+    var k = new_index - arr.length + 1;
+
+    while (k--) {
+      arr.push(undefined);
+    }
+  }
+
+  arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+  return arr;
+};

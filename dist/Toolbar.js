@@ -18,7 +18,14 @@ var Component = function Component(props) {
       sm: "12",
       md: "6",
       className: "afb-toolbar-item-parent",
-      key: "toolbar-item-" + index
+      key: "toolbar-item-" + index,
+      draggable: "true",
+      onDragEnd: function onDragEnd(e) {
+        return props.dragEnd(e, type);
+      },
+      onDragOver: function onDragOver(e) {
+        return props.dragOver(e);
+      }
     }, /*#__PURE__*/_react["default"].createElement("div", {
       className: "afb-toolbar-item",
       onClick: function onClick(e) {

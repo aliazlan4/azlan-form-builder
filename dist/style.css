@@ -165,3 +165,14 @@
 	position: fixed;
     width: 21%;
 }
+
+.dragging-element {
+	opacity: 0.5;
+}
+
+.drag-position {
+	border: 2px dashed#34c38f;
+	margin-bottom: 12px;
+	text-align: center;
+	padding: 5px;
+}

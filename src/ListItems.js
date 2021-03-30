@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useRef} from "react";
 import { Row, Col, FormGroup, Label, Input } from "reactstrap";
 
 const ItemUI = (props) => {
@@ -7,7 +7,14 @@ const ItemUI = (props) => {
 	if (props.selectedItem === props.index) classOfDiv += " afb-item-selected";
 	if (props.item.required) classOfDiv += " afb-is-required";
 	return (
-		<div className={classOfDiv} onClick={e => props.onItemSelect(props.index)}>
+		<div
+			className={classOfDiv}
+			onClick={e => props.onItemSelect(props.index)}
+			draggable="true"
+			onDragStart={e => props.dragStart(e, props.index)}
+			onDragEnd={e => props.dragEnd(e, props.index)}
+			onDragOver={e => props.dragOver(e)}
+		>
 			<span className="fa fa-trash afb-delete-icon btn-outline-danger" onClick={e => props.onItemDelete(e, props.index)}/>
 			<span className="fa fa-clone afb-copy-icon btn-outline-success" onClick={e => props.onItemDuplicate(e, props.index)}/>
 			<span className="afb-item-type">{friendlyName}</span>
@@ -109,13 +116,22 @@ const Component = props => {
 	};
 
 	return (
-		<div>
+		<div ref={props.dropzoneDiv}>
 			{props.items.map((item, index) => (
-				<Row key={"item-"+index}>
-					<Col sm="12">
-						{renderItem(item, index)}
-					</Col>
-				</Row>
+				<div key={"item-"+index}>
+					{props.dragPosition === index &&
+						<Row>
+							<Col sm="12">
+								<div className="drag-position">Drop Here</div>
+							</Col>
+						</Row>
+					}
+					<Row className={props.draggingItem === index ? "dragging-element" : ""}>
+						<Col sm="12">
+							{renderItem(item, index)}
+						</Col>
+					</Row>
+				</div>
 			))}
 
 			{props.items.length === 0 &&
