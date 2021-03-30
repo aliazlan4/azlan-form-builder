@@ -41,7 +41,7 @@ const Component = props => {
 	//////////// internal functions ///////////
 
 	const newItem = (type) => {
-		items.push({...allItems[type].defaultState});
+		items.push(JSON.parse(JSON.stringify(allItems[type].defaultState)));
 		setItems([...items]);
 		bottomRef.current.scrollIntoView({ behavior: "smooth" });
 	};
@@ -93,7 +93,7 @@ const Component = props => {
 		setDragPosition(null);
 		if (isInDropZone(e, dropzoneDiv)) {
 			const newIndex = findNewIndex(e, dropzoneDiv);
-			items.push({...allItems[type].defaultState});
+			items.push(JSON.parse(JSON.stringify(allItems[type].defaultState)));
 			array_move(items, items.length - 1, newIndex);
 			setItems([...items]);
 		}

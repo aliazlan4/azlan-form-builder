@@ -101,7 +101,7 @@ var Component = function Component(props) {
   }, [props.items]); //////////// internal functions ///////////
 
   var newItem = function newItem(type) {
-    items.push(_objectSpread({}, allItems[type].defaultState));
+    items.push(JSON.parse(JSON.stringify(allItems[type].defaultState)));
     setItems(_toConsumableArray(items));
     bottomRef.current.scrollIntoView({
       behavior: "smooth"
@@ -157,7 +157,7 @@ var Component = function Component(props) {
 
     if (isInDropZone(e, dropzoneDiv)) {
       var newIndex = findNewIndex(e, dropzoneDiv);
-      items.push(_objectSpread({}, allItems[type].defaultState));
+      items.push(JSON.parse(JSON.stringify(allItems[type].defaultState)));
       array_move(items, items.length - 1, newIndex);
       setItems(_toConsumableArray(items));
     }

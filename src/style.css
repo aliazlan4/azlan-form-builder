@@ -1,5 +1,6 @@
 .afb-container {
 	font-family: sans-serif;
+	min-height: 450px;
 }
 
 .afb-container-right .row {
