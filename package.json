@@ -1,10 +1,11 @@
 {
 	"name": "azlan-form-builder",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "A ReactJS Form Builder Library",
 	"main": "dist/index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "nodemon --ignore './dist' --exec npm run build",
 		"build": "rm -rf dist && mkdir dist &&  babel ./src -d dist --copy-files"
 	},
 	"repository": {
@@ -25,6 +26,7 @@
 		"@babel/core": "^7.13.13",
 		"@babel/preset-env": "^7.13.12",
 		"@babel/preset-react": "^7.13.13",
+		"nodemon": "^2.0.7",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
 		"reactstrap": "^8.9.0"

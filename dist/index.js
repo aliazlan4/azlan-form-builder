@@ -58,23 +58,35 @@ var Component = function Component(props) {
       _useState2 = _slicedToArray(_useState, 1),
       allItems = _useState2[0];
 
-  var _useState3 = (0, _react.useState)(props.items || []),
+  var _useState3 = (0, _react.useState)([]),
       _useState4 = _slicedToArray(_useState3, 2),
       items = _useState4[0],
-      setItems = _useState4[1]; // add one item in new instance at start
-
+      setItems = _useState4[1];
 
   var _useState5 = (0, _react.useState)(null),
       _useState6 = _slicedToArray(_useState5, 2),
       selectedItem = _useState6[0],
       setSelectedItem = _useState6[1];
 
-  var bottomRef = (0, _react.useRef)(null); //////////// webhooks to world ///////////
+  var bottomRef = (0, _react.useRef)(null);
+  var didMount = (0, _react.useRef)(false); //////////// webhooks to world ///////////
   // call props.onUpdate whenever items changes
 
   (0, _react.useEffect)(function () {
-    props.onUpdate(items);
-  }, [items]); //////////// internal functions ///////////
+    if (didMount.current) {
+      props.onUpdate(items);
+    } else {
+      didMount.current = true;
+    }
+  }, [items]); // updating items array and UI after items are changed in parent component
+
+  (0, _react.useEffect)(function () {
+    didMount.current = false;
+
+    if (props.items) {
+      setItems(props.items);
+    }
+  }, [props.items]); //////////// internal functions ///////////
 
   var newItem = function newItem(type) {
     items.push(_objectSpread({}, allItems[type].defaultState));

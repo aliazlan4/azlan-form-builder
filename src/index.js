@@ -10,16 +10,29 @@ import "./style.css";
 
 const Component = props => {
 	const [allItems] = useState(props.availableItems || {...availableItems});
-	const [items, setItems] = useState(props.items || []); // add one item in new instance at start
+	const [items, setItems] = useState([]);
 	const [selectedItem, setSelectedItem] = useState(null);
 	const bottomRef = useRef(null);
+	const didMount = useRef(false);
 
 	//////////// webhooks to world ///////////
 
 	// call props.onUpdate whenever items changes
 	useEffect(() => {
-		props.onUpdate(items);
+		if (didMount.current) {
+			props.onUpdate(items);
+		} else {
+			didMount.current = true;
+		}
 	}, [items]);
+
+	// updating items array and UI after items are changed in parent component
+	useEffect(() => {
+		didMount.current = false;
+		if (props.items) {
+			setItems(props.items);
+		}
+	}, [props.items]);
 
 	//////////// internal functions ///////////
 
