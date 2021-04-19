@@ -1,6 +1,6 @@
 {
 	"name": "azlan-form-builder",
-	"version": "1.0.7",
+	"version": "1.0.8",
 	"description": "A ReactJS Form Builder Library",
 	"main": "dist/index.js",
 	"keywords": [
