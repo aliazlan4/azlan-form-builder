@@ -6,6 +6,7 @@ import Toolbar from "./Toolbar";
 import SelectedItem from "./SelectedItem";
 import availableItems from "./availableItems";
 
+import '../node_modules/@fortawesome/fontawesome-free/css/all.min.css'; 
 import "./style.css";
 
 const Component = props => {

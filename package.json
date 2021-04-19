@@ -1,9 +1,14 @@
 {
 	"name": "azlan-form-builder",
-	"version": "1.0.6",
+	"version": "1.0.7",
 	"description": "A ReactJS Form Builder Library",
 	"main": "dist/index.js",
-	"keywords": ["formbuilder", "form-builder", "react", "drag-and-drop"],
+	"keywords": [
+		"formbuilder",
+		"form-builder",
+		"react",
+		"drag-and-drop"
+	],
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"dev": "nodemon --ignore './dist' --exec npm run build",
@@ -20,6 +25,7 @@
 	},
 	"homepage": "https://github.com/aliazlan4/azlan-form-builder#readme",
 	"dependencies": {
+		"@fortawesome/fontawesome-free": "^5.15.3",
 		"react-drag-listview": "^0.1.8",
 		"reactstrap": "^8.9.0"
 	},

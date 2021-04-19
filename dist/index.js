@@ -19,6 +19,8 @@ var _SelectedItem = _interopRequireDefault(require("./SelectedItem"));
 
 var _availableItems = _interopRequireDefault(require("./availableItems"));
 
+require("../node_modules/@fortawesome/fontawesome-free/css/all.min.css");
+
 require("./style.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
