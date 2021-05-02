@@ -1,5 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FormGroup, Label, Input, Row, Col, Card, CardHeader, CardBody, InputGroup, InputGroupAddon, InputGroupText, Button } from "reactstrap";
+import { Editor } from "react-draft-wysiwyg";
+import { EditorState, convertFromHTML, ContentState } from 'draft-js';
+import { stateToHTML } from 'draft-js-export-html';
+
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+
+const options = {
+	options: ["inline", "list", "link", "embedded", "image", "emoji"],
+	inline: { inDropdown: true },
+	list: { inDropdown: true },
+};
 
 const Component = props => {
 	if (props.selectedItem === null) {
@@ -14,6 +25,26 @@ const Component = props => {
 
 	const item = props.items[props.selectedItem];
 	const friendlyName = props.availableItems[item.type].name;
+
+	const makeEditorState = (text) => {
+		const blocksFromHTML = convertFromHTML(text);
+		return EditorState.createWithContent(ContentState.createFromBlockArray(
+			blocksFromHTML.contentBlocks,
+			blocksFromHTML.entityMap,
+		));
+	};
+
+	const [editorState, setEditorState] = useState(makeEditorState(item.text));
+
+	useEffect(() => {
+		setEditorState(makeEditorState(item.text));
+	}, [item]);
+
+	const updateParagraphText = state => {
+		setEditorState(state);
+		item.text = stateToHTML(state.getCurrentContent());
+		props.onSelectedItemUpdate(item);
+	};
 
 	const updateText = ev => {
 		item.text = ev.target.value;
@@ -54,7 +85,20 @@ const Component = props => {
 					<CardBody className="afb-selected-form">
 						<FormGroup>
 							<Label className="afb-label">Text</Label>
-							<Input type="text" value={item.text} onChange={updateText} />
+
+							{item.type === "paragraph" ?
+								<Editor
+									editorState={editorState}
+									toolbar={options}
+									toolbarClassName="toolbarClassName"
+									wrapperClassName="wrapperClassName"
+									editorClassName="editorClassName"
+									onEditorStateChange={updateParagraphText}
+								/>
+								:
+								<Input type="text" value={item.text} onChange={updateText} />
+							}
+							
 						</FormGroup>
 
 						{ item.placeholder !== undefined &&

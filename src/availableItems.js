@@ -14,7 +14,7 @@ export default {
 		icon: "fas fa-info-circle",
 		defaultState: {
 			type: "paragraph",
-			text: "New paragraph text",
+			text: "<p>New paragraph text</p>",
 		}
 	},
 
@@ -25,7 +25,7 @@ export default {
 			type: "text",
 			text: "New text",
 			required: false,
-			placeholder: "New placeholder",
+			placeholder: "",
 		}
 	},
 
@@ -47,7 +47,7 @@ export default {
 			type: "textarea",
 			text: "New long text",
 			required: false,
-			placeholder: "New placeholder",
+			placeholder: "",
 		}
 	},
 

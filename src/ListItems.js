@@ -35,7 +35,7 @@ const Component = props => {
 				); break;
 			case "paragraph":
 				subcomponent = (
-						<p>{item.text}</p>
+						<div dangerouslySetInnerHTML={{ __html: item.text }}></div>
 				); break;
 			case "text":
 				subcomponent = (

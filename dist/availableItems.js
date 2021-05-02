@@ -18,7 +18,7 @@ var _default = {
     icon: "fas fa-info-circle",
     defaultState: {
       type: "paragraph",
-      text: "New paragraph text"
+      text: "<p>New paragraph text</p>"
     }
   },
   "text": {
@@ -28,7 +28,7 @@ var _default = {
       type: "text",
       text: "New text",
       required: false,
-      placeholder: "New placeholder"
+      placeholder: ""
     }
   },
   "email": {
@@ -48,7 +48,7 @@ var _default = {
       type: "textarea",
       text: "New long text",
       required: false,
-      placeholder: "New placeholder"
+      placeholder: ""
     }
   },
   "select": {
